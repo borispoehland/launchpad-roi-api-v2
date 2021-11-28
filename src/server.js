@@ -1,13 +1,15 @@
-import 'dotenv/config';
+require('dotenv/config')
 
-import express from 'express';
+const listEndpoints = require('express-list-endpoints')
 
-const app = express();
+const app = require('express')()
 
-const seedifyRouter = require("./launchpads/seedify");
+app.use('/seedify', require('./launchpads/seedify'))
 
-app.use("/seedify", seedifyRouter)
+app.get('/', function (req, res) {
+    return res.json(listEndpoints(app))
+})
 
 app.listen(process.env.PORT, () =>
-    console.log(`Example app listening on port ${process.env.PORT}!`),
-);
+    console.log(`Launchpad ROI app listening on port ${process.env.PORT}!`)
+)
