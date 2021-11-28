@@ -21,10 +21,12 @@ const fetchSingleCoinData = async (coinId, idoPrice) => {
     const current = response.data['market_data']['current_price']['usd']
     const id = response.data['id']
     const name = response.data['name']
+    const image = response.data['image']['small']
 
     return {
         id,
         idoPrice,
+        image,
         ath: trimNumber(ath),
         current: trimNumber(current),
         athROI: trimNumber(ath / idoPrice),
