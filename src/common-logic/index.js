@@ -66,13 +66,14 @@ const fetchCoinData = (coins) => {
 }
 
 const parseOverviewData = (data) => {
-    const sortedData = [...data].sort((a, b) => b.athROI - a.athROI)
-    const highestXCoin = sortedData[0]
-    const lowestXCoin = sortedData[data.length - 1]
-
     const filteredData = data.filter((coin) => coin.onCoinGecko)
+    const sortedData = filteredData.sort((a, b) => b.athROI - a.athROI)
+
+    const highestXCoin = sortedData[0]
+    const lowestXCoin = sortedData[sortedData.length - 1]
+
     const avgXAllCoins = trimNumber(
-        filteredData.reduce((a, b) => a + b.athROI, 0) / filteredData.length
+        sortedData.reduce((a, b) => a + b.athROI, 0) / sortedData.length
     )
 
     const avgX = {
