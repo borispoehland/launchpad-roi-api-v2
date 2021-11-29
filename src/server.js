@@ -1,10 +1,24 @@
 require('dotenv/config')
 
-const listEndpoints = require('express-list-endpoints')
-
 const app = require('express')()
+const listEndpoints = require('express-list-endpoints')
+const getLaunchpadRoutes = require('./launchpads')
 
-app.use('/seedify', require('./launchpads/seedify'))
+const fs = require('fs')
+const path = require('path')
+
+const getDirectories = (srcPath) =>
+    fs
+        .readdirSync(srcPath)
+        .filter((file) => fs.statSync(path.join(srcPath, file)).isDirectory())
+
+const launchpads = getDirectories(
+    path.resolve(process.cwd(), './src/launchpads')
+)
+
+launchpads.forEach((launchpad) => {
+    app.use(`/${launchpad}`, getLaunchpadRoutes(launchpad))
+})
 
 app.get('/', function (req, res) {
     return res.json(listEndpoints(app))
