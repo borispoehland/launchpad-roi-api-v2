@@ -14,16 +14,19 @@ const parseOverviewData = (data) => {
     const avgX = {
         label: 'Average ROI',
         value: avgXAllCoins,
+        suffix: 'x',
     }
 
     const highestX = {
         label: `Maximum ROI (${highestXCoin.name})`,
         value: highestXCoin.athROI,
+        suffix: 'x',
     }
 
     const lowestX = {
         label: `Minimum ROI (${lowestXCoin.name})`,
         value: lowestXCoin.athROI,
+        suffix: 'x',
     }
 
     const igosHeld = {

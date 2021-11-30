@@ -26,6 +26,11 @@ const fetchSingleCoinData = async (coinId, idoPrice) => {
                 name: coinId,
                 idoPrice,
                 image: 'https://cryptoghub.com/wp-content/uploads/question_mark.png',
+                id: null,
+                ath: null,
+                current: null,
+                athROI: null,
+                currentROI: null,
             }
         }
     }
