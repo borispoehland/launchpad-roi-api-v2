@@ -1,7 +1,7 @@
 const { fetchCoinData, trimNumber } = require('../common-logic')
 
 const parseOverviewData = (data) => {
-    const filteredData = data.filter((coin) => coin.onCoinGecko)
+    const filteredData = data.filter((coin) => coin.onCoinGecko && coin.ath)
     const sortedData = filteredData.sort((a, b) => b.athROI - a.athROI)
 
     const highestXCoin = sortedData[0]

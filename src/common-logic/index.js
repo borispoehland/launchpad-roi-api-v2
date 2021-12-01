@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-const trimNumber = (num) => +num.toFixed(2)
+const trimNumber = (num) => (num ? +num.toFixed(2) : null)
 const formatName = (name) => name.replace(' Token', '')
 
 const fetchSingleCoinData = async (coinId, idoPrice) => {
