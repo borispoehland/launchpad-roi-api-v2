@@ -1,7 +1,7 @@
 name: Historical ROI - Chainboost
 on:
   schedule:
-    - cron: '10 13 * * *'
+    - cron: '15 13 * * *'
 jobs:
   seedify:
     runs-on: ubuntu-latest

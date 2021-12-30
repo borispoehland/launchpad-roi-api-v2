@@ -1,12 +1,20 @@
 const axios = require('axios')
 
-const trimNumber = (num) => (num ? +num.toFixed(2) : null)
+const trimNumber = (num) => {
+    const toFixed = (num, precision) => {
+        return (+(
+            Math.round(+(num + 'e' + precision)) +
+            'e' +
+            -precision
+        )).toFixed(precision)
+    }
+    const trailingZeros = -Math.floor(Math.log(num) / Math.log(10) + 1)
+    return +toFixed(num, trailingZeros > 0 ? trailingZeros + 2 : 2)
+}
 const formatName = (name) => name.replace(' Token', '')
 
 const fetchSingleCoinData = async (coinId, idoPrice) => {
     let response
-
-    console.log('Hello from fetchSingleCoinData')
 
     try {
         response = await axios.get(
@@ -22,7 +30,6 @@ const fetchSingleCoinData = async (coinId, idoPrice) => {
             }
         )
     } catch (error) {
-        console.log('Error', error)
         if (error.response.status === 404) {
             return {
                 onCoinGecko: false,
@@ -35,10 +42,8 @@ const fetchSingleCoinData = async (coinId, idoPrice) => {
                 athROI: null,
                 currentROI: null,
             }
-        }
+        } else console.log('Error', error)
     }
-
-    console.log('Response', response)
 
     const ath = response.data['market_data']['ath']['usd']
     const current = response.data['market_data']['current_price']['usd']
