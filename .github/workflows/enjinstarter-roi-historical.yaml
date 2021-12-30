@@ -1,13 +1,12 @@
-name: Historical ROI Cronjob
+name: Historical ROI - Enjinstarter
 on:
-  push:
   schedule:
-    - cron: '0 13 * * *'
+    - cron: '5 13 * * *'
 jobs:
-  cron:
+  seedify:
     runs-on: ubuntu-latest
     steps:
       - name: Historical ROI Cronjob
         run: |
           curl -u '${{ secrets.LOGIN }}:${{ secrets.PASSWORD }}' --request POST \
-          --url 'https://launchpad-roi-api-rewrite.vercel.app/historical-roi' \
+          --url 'https://launchpad-roi-api-rewrite.vercel.app/historical-roi?launchpad=enjinstarter' \

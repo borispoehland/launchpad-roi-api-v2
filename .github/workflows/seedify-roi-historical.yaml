@@ -1,0 +1,13 @@
+name: Historical ROI - Seedify
+on:
+  push:
+  schedule:
+    - cron: '0 13 * * *'
+jobs:
+  seedify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Historical ROI Cronjob
+        run: |
+          curl -u '${{ secrets.LOGIN }}:${{ secrets.PASSWORD }}' --request POST \
+          --url 'https://launchpad-roi-api-rewrite.vercel.app/historical-roi' \

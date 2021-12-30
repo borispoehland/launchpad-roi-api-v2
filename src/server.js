@@ -40,16 +40,13 @@ app.post('/historical-roi', async function (req, res) {
         return res.status(401).send('Authentication required.') // custom message
     }
 
-    const launchpads = ['seedify', 'enjinstarter', 'chainboost']
-
-    for (const launchpad of launchpads) {
-        const avgRoi = (await getOverview(launchpad))[1].value
-        await prisma[`${launchpad}_ROI`].create({
-            data: {
-                avgRoi,
-            },
-        })
-    }
+    const launchpad = req.query['launchpad'] || 'seedify'
+    const avgRoi = (await getOverview(launchpad))[1].value
+    await prisma[`${launchpad}_ROI`].create({
+        data: {
+            avgRoi,
+        },
+    })
 
     return res.json({ success: true })
 })
