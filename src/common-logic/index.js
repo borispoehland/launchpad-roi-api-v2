@@ -6,6 +6,8 @@ const formatName = (name) => name.replace(' Token', '')
 const fetchSingleCoinData = async (coinId, idoPrice) => {
     let response
 
+    console.log('Hello from fetchSingleCoinData')
+
     try {
         response = await axios.get(
             `https://api.coingecko.com/api/v3/coins/${coinId}`,
@@ -20,6 +22,7 @@ const fetchSingleCoinData = async (coinId, idoPrice) => {
             }
         )
     } catch (error) {
+        console.log('Error', error)
         if (error.response.status === 404) {
             return {
                 onCoinGecko: false,
@@ -33,7 +36,6 @@ const fetchSingleCoinData = async (coinId, idoPrice) => {
                 currentROI: null,
             }
         }
-        console.log('Error', error)
     }
 
     console.log('Response', response)
