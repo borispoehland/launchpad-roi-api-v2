@@ -33,7 +33,10 @@ const fetchSingleCoinData = async (coinId, idoPrice) => {
                 currentROI: null,
             }
         }
+        console.log('Error', error)
     }
+
+    console.log('Response', response)
 
     const ath = response.data['market_data']['ath']['usd']
     const current = response.data['market_data']['current_price']['usd']
