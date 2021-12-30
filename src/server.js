@@ -43,9 +43,10 @@ app.post('/historical-roi', async function (req, res) {
     const launchpads = ['seedify', 'enjinstarter', 'chainboost']
 
     for (const launchpad of launchpads) {
+        const avgRoi = (await getOverview(launchpad))[1].value
         await prisma[`${launchpad}_ROI`].create({
             data: {
-                avgRoi: (await getOverview(launchpad))[1].value,
+                avgRoi,
             },
         })
     }
