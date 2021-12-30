@@ -19,6 +19,47 @@ app.get('/detailed', async function (req, res) {
     return res.json(await getDetailed(launchpad))
 })
 
+const historicalROIs = {
+    seedify: [],
+    enjinstarter: [],
+    chainboost: [],
+}
+
+app.post('/historical-roi', async function (req, res) {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
+    const [login, password] = Buffer.from(b64auth, 'base64')
+        .toString()
+        .split(':')
+
+    // Verify login and password are set and correct
+    if (
+        !login ||
+        !password ||
+        login !== process.env.LOGIN ||
+        password !== process.env.PASSWORD
+    ) {
+        // Access denied...
+        res.set('WWW-Authenticate', 'Basic realm="401"') // change this
+        return res.status(401).send('Authentication required.') // custom message
+    }
+
+    const launchpads = ['seedify', 'enjinstarter', 'chainboost']
+
+    for (const launchpad of launchpads) {
+        historicalROIs[launchpad].push({
+            date: new Date().toLocaleDateString('en'),
+            avgRoi: (await getOverview(launchpad))[1].value,
+        })
+    }
+
+    return res.json({ success: true })
+})
+
+app.get('/historical-roi', async function (req, res) {
+    const launchpad = req.query['launchpad'] || 'seedify'
+    return res.json(historicalROIs[launchpad])
+})
+
 app.listen(process.env.PORT, () =>
     console.log(`Launchpad ROI app listening on port ${process.env.PORT}!`)
 )
