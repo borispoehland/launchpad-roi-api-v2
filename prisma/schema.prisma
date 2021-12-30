@@ -11,16 +11,16 @@ datasource db {
 }
 
 model Seedify_ROI {
-  date      Date     @id @default(now())
+  date      DateTime  @id @default(now())
   avgRoi    Float    
 }
 
 model Enjinstarter_ROI {
-  date      Date     @id @default(now())
+  date      DateTime     @id @default(now())
   avgRoi    Float    
 }
 
 model Chainboost_ROI {
-  date      Date     @id @default(now())
+  date      DateTime     @id @default(now())
   avgRoi    Float    
 }

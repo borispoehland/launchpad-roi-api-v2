@@ -5,6 +5,9 @@ const listEndpoints = require('express-list-endpoints')
 const getOverview = require('./launchpads/overview')
 const getDetailed = require('./launchpads/detailed')
 
+const PrismaClient = require('@prisma/client').PrismaClient
+const prisma = new PrismaClient()
+
 app.get('/', function (req, res) {
     return res.json(listEndpoints(app))
 })
@@ -18,12 +21,6 @@ app.get('/detailed', async function (req, res) {
     const launchpad = req.query['launchpad'] || 'seedify'
     return res.json(await getDetailed(launchpad))
 })
-
-const historicalROIs = {
-    seedify: [],
-    enjinstarter: [],
-    chainboost: [],
-}
 
 app.post('/historical-roi', async function (req, res) {
     const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
@@ -46,9 +43,10 @@ app.post('/historical-roi', async function (req, res) {
     const launchpads = ['seedify', 'enjinstarter', 'chainboost']
 
     for (const launchpad of launchpads) {
-        historicalROIs[launchpad].push({
-            date: new Date().toLocaleDateString('en'),
-            avgRoi: (await getOverview(launchpad))[1].value,
+        await prisma[`${launchpad}_ROI`].create({
+            data: {
+                avgRoi: (await getOverview(launchpad))[1].value,
+            },
         })
     }
 
@@ -57,7 +55,19 @@ app.post('/historical-roi', async function (req, res) {
 
 app.get('/historical-roi', async function (req, res) {
     const launchpad = req.query['launchpad'] || 'seedify'
-    return res.json(historicalROIs[launchpad])
+    const rois = await prisma[`${launchpad}_ROI`].findMany()
+    return res.json({
+        labels: rois
+            .map((val) =>
+                val.date.toLocaleDateString('en-GB', {
+                    day: 'numeric',
+                    month: 'numeric',
+                })
+            )
+            .join(', '),
+        data: rois.map((val) => val.avgRoi).join(', '),
+        max: Math.max(...rois.map((val) => val.avgRoi)),
+    })
 })
 
 app.listen(process.env.PORT, () =>
