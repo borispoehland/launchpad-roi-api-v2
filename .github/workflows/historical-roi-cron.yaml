@@ -9,5 +9,5 @@ jobs:
     steps:
       - name: Historical ROI Cronjob
         run: |
-          curl -u ${{ secrets.LOGIN }}:${{ secrets.PASSWORD }} --request POST \
+          curl -u '${{ secrets.LOGIN }}:${{ secrets.PASSWORD }}' --request POST \
           --url 'https://launchpad-roi-api-rewrite.vercel.app/historical-roi' \
