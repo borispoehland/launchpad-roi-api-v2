@@ -41,10 +41,13 @@ app.post('/historical-roi', async function (req, res) {
     }
 
     const launchpad = req.query['launchpad'] || 'seedify'
-    const avgRoi = (await getOverview(launchpad))[1].value
+    const overviewData = await getOverview(launchpad)
+    const avgATHRoi = overviewData[1].value
+    const avgCurrentRoi = overviewData[4].value
     await prisma[`${launchpad}_ROI`].create({
         data: {
-            avgRoi,
+            avgATHRoi,
+            avgCurrentRoi,
         },
     })
 
@@ -63,8 +66,9 @@ app.get('/historical-roi', async function (req, res) {
                 })
             )
             .join(', '),
-        data: rois.map((val) => val.avgRoi).join(', '),
-        max: Math.max(...rois.map((val) => val.avgRoi)),
+        athData: rois.map((val) => val.avgATHRoi).join(', '),
+        currentData: rois.map((val) => val.avgCurrentRoi).join(', '),
+        max: Math.max(...rois.map((val) => val.avgATHRoi)),
     })
 })
 
