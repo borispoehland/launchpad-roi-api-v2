@@ -56,7 +56,9 @@ app.post('/historical-roi', async function (req, res) {
 
 app.get('/historical-roi', async function (req, res) {
     const launchpad = req.query['launchpad'] || 'seedify'
-    const rois = await prisma[`${launchpad}_ROI`].findMany()
+    const rois = await prisma[`${launchpad}_ROI`].findMany({
+        take: -30,
+    })
     return res.json({
         labels: rois
             .map((val) =>
