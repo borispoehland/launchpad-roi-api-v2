@@ -59,19 +59,21 @@ app.get('/historical-roi', async function (req, res) {
     const rois = await prisma[`${launchpad}_ROI`].findMany({
         take: -30,
     })
-    return res.json({
-        labels: rois
-            .map((val) =>
-                val.date.toLocaleDateString('en-GB', {
-                    day: 'numeric',
-                    month: 'numeric',
-                })
-            )
-            .join(', '),
-        athData: rois.map((val) => val.avgATHRoi).join(', '),
-        currentData: rois.map((val) => val.avgCurrentRoi).join(', '),
-        max: Math.max(...rois.map((val) => val.avgATHRoi)),
-    })
+    return res.json([
+        {
+            labels: rois
+                .map((val) =>
+                    val.date.toLocaleDateString('en-GB', {
+                        day: 'numeric',
+                        month: 'numeric',
+                    })
+                )
+                .join(', '),
+            athData: rois.map((val) => val.avgATHRoi).join(', '),
+            currentData: rois.map((val) => val.avgCurrentRoi).join(', '),
+            max: Math.max(...rois.map((val) => val.avgATHRoi)),
+        },
+    ])
 })
 
 app.listen(process.env.PORT, () =>
