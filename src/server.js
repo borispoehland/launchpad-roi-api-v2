@@ -71,7 +71,7 @@ app.get('/historical-roi', async function (req, res) {
                 .join(', '),
             athData: rois.map((val) => val.avgATHRoi).join(', '),
             currentData: rois.map((val) => val.avgCurrentRoi).join(', '),
-            max: Math.max(...rois.map((val) => val.avgATHRoi)),
+            max: Math.max(...rois.map((val) => val.avgATHRoi)) * 1.2,
         },
     ])
 })
