@@ -27,3 +27,9 @@ model Chainboost_ROI {
   avgATHRoi    Float  
   avgCurrentRoi   Float  
 }
+
+model Raydium_ROI {
+  date      DateTime     @id @default(now())
+  avgATHRoi    Float  
+  avgCurrentRoi   Float  
+}
