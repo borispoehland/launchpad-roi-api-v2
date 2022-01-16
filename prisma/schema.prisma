@@ -33,3 +33,9 @@ model Raydium_ROI {
   avgATHRoi    Float  
   avgCurrentRoi   Float  
 }
+
+model Avalaunch_ROI {
+  date      DateTime     @id @default(now())
+  avgATHRoi    Float  
+  avgCurrentRoi   Float  
+}
