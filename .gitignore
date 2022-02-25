@@ -1,5 +1,6 @@
 .vercel
 .idea
 .env
+.history
 
 node_modules

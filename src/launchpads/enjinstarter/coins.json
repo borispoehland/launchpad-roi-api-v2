@@ -1,4 +1,9 @@
 {
+  "battleverse": 0.05,
+  "zone": 0.03835,
+  "Geojam": 0.005,
+  "jigen": 0.09,
+  "Space Misfits": 0.16,
   "monster-galaxy": 0.025,
   "ancient-kingdom": 0.012,
   "kingdom-karnage": 0.012,
@@ -13,7 +18,7 @@
   "geopoly": 0.02,
   "gamesta": 0.08,
   "hololoot": 0.2,
-  "Last Survivor": 0.015,
+  "last-survivor": 0.015,
   "atlantis-metaverse": 0.12,
   "solchicks-token": 0.05,
   "pathdao": 0.015,
