@@ -1,4 +1,11 @@
 const axios = require('axios').default
+const rateLimit = require('axios-rate-limit')
+
+// @ts-ignore
+const http = rateLimit(axios.create(), {
+    maxRequests: 20,
+    perMilliseconds: 1000 * 62,
+})
 
 const trimNumber = (num) => {
     const toFixed = (num, precision) => {
@@ -17,7 +24,7 @@ const fetchSingleCoinData = async (coinId, idoPrice) => {
     let response
 
     try {
-        response = await axios.get(
+        response = await http.get(
             `https://api.coingecko.com/api/v3/coins/${coinId}`,
             {
                 params: {
